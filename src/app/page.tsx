@@ -1,15 +1,35 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { players } from "@/data/players";
 
 export default function Home() {
+  const fullText = "Choose Your Player to View Profile";
+  const [displayText, setDisplayText] = useState("");
+  
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index <= fullText.length) {
+        setDisplayText(fullText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 75);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1e3c72] to-[#2a5298] flex items-center justify-center p-5 font-sans">
       <div className="text-center animate-[fadeIn_0.8s_ease-in]">
         <h1 className="text-white text-4xl md:text-6xl font-bold mb-5 drop-shadow-[3px_3px_6px_rgba(0,0,0,0.5)] animate-[slideDown_0.6s_ease]">
           ⚽ FOOTBALL LEGENDS ⚽
         </h1>
-        <p className="text-gray-300 text-xl font-light mb-16">
-          Choose Your Player to View Profile
+        <p className="text-gray-300 text-xl font-light mb-16 h-8 flex justify-center items-center">
+          {displayText}
+          <span className="animate-pulse ml-1 text-white">|</span>
         </p>
 
         <div className="flex justify-center gap-10 flex-wrap max-w-4xl mx-auto">
